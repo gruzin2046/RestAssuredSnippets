@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class VideoGame {
 
     private String reviewScore;
@@ -7,7 +9,9 @@ public class VideoGame {
     private String id;
     private String category;
 
-    public VideoGame(String reviewScore, String releaseDate, String name, String rating, String id, String category) {
+    public VideoGame() {}
+
+    public VideoGame(String id, String name, String releaseDate, String reviewScore, String category, String rating) {
         this.reviewScore = reviewScore;
         this.releaseDate = releaseDate;
         this.name = name;
@@ -74,5 +78,17 @@ public class VideoGame {
                 ", category = " + category + "]";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VideoGame)) return false;
+        VideoGame videoGame = (VideoGame) o;
+        return Objects.equals(getReviewScore(), videoGame.getReviewScore()) && Objects.equals(getReleaseDate(), videoGame.getReleaseDate()) && Objects.equals(getName(), videoGame.getName()) && Objects.equals(getRating(), videoGame.getRating()) && Objects.equals(getId(), videoGame.getId()) && Objects.equals(getCategory(), videoGame.getCategory());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getReviewScore(), getReleaseDate(), getName(), getRating(), getId(), getCategory());
+    }
 }
 
