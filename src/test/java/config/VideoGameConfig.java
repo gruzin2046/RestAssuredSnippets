@@ -8,6 +8,7 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.junit.BeforeClass;
+import static org.hamcrest.Matchers.lessThan;
 
 public class VideoGameConfig {
 
@@ -28,6 +29,7 @@ public class VideoGameConfig {
 
         videoGameResponseSpecification = new ResponseSpecBuilder()
                 .expectStatusCode(200)
+                .expectResponseTime(lessThan(3000L))
                 .build();
 
         // hook it to RestAssured class

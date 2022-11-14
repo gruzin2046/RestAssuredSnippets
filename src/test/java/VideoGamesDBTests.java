@@ -3,11 +3,11 @@ import io.restassured.response.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static config.VideoGamesEndpoints.ALL_VIDEO_GAMES;
-import static config.VideoGamesEndpoints.SINGLE_VIDEO_GAME;
+import static config.VideoGamesEndpoints.*;
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.matchesXsdInClasspath;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.lessThan;
 
 public class VideoGamesDBTests extends VideoGameConfig {
 
@@ -22,6 +22,8 @@ public class VideoGamesDBTests extends VideoGameConfig {
     // 6. How to convert JSON response to POJO
     // 7. Validate response against JSON Schema.
     // 8. Validate response against XML Schema.
+    // 9. Capture response time using get().time()
+    // 10. Assert response time using get().then().time(lesThan(value))
 
     private Response getSingleGame(int id) {
         return
@@ -42,7 +44,6 @@ public class VideoGamesDBTests extends VideoGameConfig {
     // 1.b. GET method (single item) using pathParam(String paramName,Object paramValue)
     // Request URI: http://localhost:8080/app/videogames/{videoGameId} ->
     //              http://localhost:8080/app/videogames/1
-
     @Test
     public void getSingleGame() {
         given()
@@ -141,7 +142,7 @@ public class VideoGamesDBTests extends VideoGameConfig {
 
     @Test
     public void testSerializationByJSON() {
-        VideoGame videoGame = new VideoGame("99", "2010", "awesome game", "any", "44", "shooter");
+        VideoGame videoGame = new VideoGame("99", "awesome game", "2010", "8/10", "any", "shooter");
 
         given()
                 .body(videoGame).
@@ -194,7 +195,7 @@ public class VideoGamesDBTests extends VideoGameConfig {
 
     @Test
     public void testVideoGameSchemaJSON() {
-        getSingleGame(1)
+        getSingleGame(3)
                 .then()
                 .body(matchesJsonSchemaInClasspath("videoGame.json"));
     }
@@ -219,6 +220,25 @@ public class VideoGamesDBTests extends VideoGameConfig {
                 .get(SINGLE_VIDEO_GAME.getEndpoint()).
         then()
                 .body(matchesXsdInClasspath("videoGame.xsd"));
+    }
+
+    // 9. Capture response time using get().time();
+    @Test
+    public void captureResponseTime() {
+        long responseTime = get(ALL_VIDEO_GAMES.getEndpoint()).time();
+        System.out.println("Response time in MS: " + responseTime);
+    }
+
+    // 10. Assert response time using get().then().time(lesThan(value in milliseconds));
+    // remember about: import static org.hamcrest.Matchers.lessThan;
+    @Test
+    public void assertResponseTime() {
+        given().
+        when().
+                get(ALL_VIDEO_GAMES.getEndpoint()).
+        then().
+                time(lessThan(1000L));
+
     }
 
 }
