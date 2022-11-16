@@ -3,11 +3,9 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +13,13 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
 public class FootballApiTests extends FootballAPIConfig {
+
+    // Content list:
+    // 1. Usage of get() with query params
+    // 2. Assert part of the response
+    // 3.a. Extract list of all nationalities using response.path()
+    // 3.b. Extract list of data from JSON using response.jsonPath().getList()
+    // 4. extract headers from response
 
     public static Response getArsenalDataResponse() {
         return get("/teams/57").then()
@@ -65,10 +70,24 @@ public class FootballApiTests extends FootballAPIConfig {
         // print all different nationalities of a team players
         nationalities.stream().distinct().forEach(System.out::println);
 
+        //England
+        //United States
+        //Portugal
+        //Ukraine
+        //Japan
+        //Scotland
+        //Brazil
+        //France
+        //Ghana
+        //Switzerland
+        //Egypt
+        //Norway
+        //Belgium
+
     }
 
 
-    // Extract list of running competitions from JSON
+    //  JSON structure for competition list
 
     /*
     "id": 57,
@@ -110,7 +129,6 @@ public class FootballApiTests extends FootballAPIConfig {
     public void getListOfRunningCompetitions() {
         List<String> competitionNames =
                 get("/teams/57").jsonPath().getList("runningCompetitions.name");
-
 
         List<String> expectedList = Arrays.asList("Premier League", "Football League Cup", "UEFA Europa League");
         Assert.assertEquals(expectedList, competitionNames);

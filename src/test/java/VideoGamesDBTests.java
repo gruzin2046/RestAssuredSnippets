@@ -238,7 +238,6 @@ public class VideoGamesDBTests extends VideoGameConfig {
                 get(ALL_VIDEO_GAMES.getEndpoint()).
         then().
                 time(lessThan(1000L));
-
     }
 
 }
