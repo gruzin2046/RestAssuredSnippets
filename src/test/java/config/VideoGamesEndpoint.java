@@ -1,11 +1,11 @@
 package config;
 
-public enum VideoGamesEndpoints {
+public enum VideoGamesEndpoint {
 
     ALL_VIDEO_GAMES("videogames"),
     SINGLE_VIDEO_GAME("videogames/{videoGameId}");
 
-    VideoGamesEndpoints(String endpoint) {
+    VideoGamesEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
 

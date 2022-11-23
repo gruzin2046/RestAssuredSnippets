@@ -3,7 +3,7 @@ import io.restassured.response.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static config.VideoGamesEndpoints.*;
+import static config.VideoGamesEndpoint.*;
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.matchesXsdInClasspath;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -25,12 +25,15 @@ public class VideoGamesDBTests extends VideoGameConfig {
     // 9. Capture response time using get().time()
     // 10. Assert response time using get().then().time(lesThan(value))
 
-    private Response getSingleGame(int id) {
+    public Response getSingleGame(int id, String dataFormat) {
+        String format = String.format("application/%s", dataFormat);
         return
                 given()
-                    .pathParam("videoGameId", id).
+                        .contentType(format)
+                        .accept(format)
+                        .pathParam("videoGameId", id).
                 when()
-                    .get(SINGLE_VIDEO_GAME.getEndpoint());
+                        .get(SINGLE_VIDEO_GAME.getEndpoint());
     }
 
 
@@ -166,7 +169,7 @@ public class VideoGamesDBTests extends VideoGameConfig {
 
     @Test
     public void convertJSONtoPOJO() {
-        Response response = getSingleGame(1);
+        Response response = getSingleGame(1, "json");
         VideoGame videoGame = response.getBody().as(VideoGame.class);
         VideoGame expectedVG = new VideoGame("1","Resident Evil 4",
                 "2005-10-01", "85", "Shooter", "Universal");
@@ -195,7 +198,7 @@ public class VideoGamesDBTests extends VideoGameConfig {
 
     @Test
     public void testVideoGameSchemaJSON() {
-        getSingleGame(3)
+        getSingleGame(3, "json")
                 .then()
                 .body(matchesJsonSchemaInClasspath("videoGame.json"));
     }

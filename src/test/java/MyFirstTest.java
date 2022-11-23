@@ -1,7 +1,7 @@
 import config.VideoGameConfig;
 import org.junit.Test;
 
-import static config.VideoGamesEndpoints.*;
+import static config.VideoGamesEndpoint.*;
 import static io.restassured.RestAssured.*;
 
 // 1. test class needs to extend TestConfig if we want to use @BeforeClass setUp() method
