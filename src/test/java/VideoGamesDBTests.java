@@ -15,6 +15,7 @@ public class VideoGamesDBTests extends VideoGameConfig {
 
     // 1.a. GET method (collection)
     // 1.b. GET method (single item) using pathParam(String paramName,Object paramValue)
+    // 2.a. POST method - JSON format
     // 2.b. POST method - XML format
     // 3. PUT method
     // 4. DELETE method
