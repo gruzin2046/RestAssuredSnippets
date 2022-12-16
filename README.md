@@ -1,3 +1,3 @@
-# RestAssuredFundamentals - Training Course code
+# Repo created base on Udemy Course "REST Assured Fundamentals"
 
-This is all of the code used in my Udemy video series - REST Assured Fundamentals
+only for education purpose. Contains many useful snippets/comments/patterns
